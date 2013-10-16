@@ -111,7 +111,7 @@
         android:layout_below="@+id/buttonUpdateServer"
         android:layout_alignParentLeft="true"
         android:editable="true"
-        android:text="http://4tress.dyndns.org:8000"
+        android:text="http://tonislaptop:8000"
         android:singleLine="false" />
 
 </RelativeLayout>

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -125,8 +126,6 @@ public class MainActivity extends Activity {
     }
 
     public void updateServer(String userName, double latitude, double longitude) {
-        //TextView textView = (TextView) findViewById(R.id.textView);
-        //textView.append("Request sent.");
         Toast.makeText(this.getApplicationContext(), "Updating...", Toast.LENGTH_SHORT).show();
         URL url = null;
         try {
@@ -156,11 +155,11 @@ public class MainActivity extends Activity {
         catch (Exception ex){Toast.makeText(getApplicationContext(), "oohhh", Toast.LENGTH_SHORT).show();}
     }
 
-    private class HttpGetTask extends AsyncTask<URL, Integer, String> {
+    private class HttpGetTask extends AsyncTask<URL, Integer, byte[]> {
 
         @Override
-        protected String doInBackground(URL... urls) {
-            String result ="";
+        protected byte[] doInBackground(URL... urls) {
+            byte[] rawBytes = new byte[]{};
             try {
                 URL url = null;
                 //url = new URL("http://raspberrypi:8000/get");
@@ -169,14 +168,14 @@ public class MainActivity extends Activity {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 try {
                     InputStream content = new BufferedInputStream(urlConnection.getInputStream());
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        result += s;
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    int nextByte;
+                    while((nextByte = content.read()) != -1){
+                        outputStream.write(nextByte);
                     }
+                    rawBytes = outputStream.toByteArray();
                 }
                 catch (Exception ex) {
-                    String exString = ex.getMessage();
                     ex.printStackTrace();
                 }
                 finally {
@@ -187,30 +186,18 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }
 
-            return result;
+            return rawBytes;
         }
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(byte[] responseBytes) {
             TextView textView = (TextView) findViewById(R.id.textView);
-            textView.append(result);
+            textView.getEditableText().clear();
 
-            byte[] data = Base64.decode(result, Base64.DEFAULT);
-            String resString ="";
+            String clearTextResponse = Codec.decr(responseBytes);
             try {
-                resString = new String(data, "UTF-8");
-            } catch (Exception ex){}
-
-            try {
-                //String[] res = result.split("&");
-                String[] res = resString.split("&");
-                textView.setText("- - -");
-                for(String encoded : res){
-                    //String decoded = Codec.decr(encoded.getBytes());
-                    //String decoded="";
-                    //byte[] encBytes = encoded.getBytes();
-                    //decoded = Codec.decr(encBytes);
-                    textView.append(encoded);
-                    //textView.append(decoded.replace('#',' ') + System.getProperty("line.separator"));
+                String[] res = clearTextResponse.split("&");
+                for(String personData : res){
+                    textView.append(personData.replace('#',' ') + System.getProperty("line.separator"));
                 }
             }
             catch (Exception ex){
