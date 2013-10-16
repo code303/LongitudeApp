@@ -1,0 +1,117 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Länge"
+        android:id="@+id/textViewLabelLatitude"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Breite"
+        android:id="@+id/textViewLabelLongitude"
+        android:layout_below="@+id/textViewLabelLatitude"
+        android:layout_alignRight="@+id/textViewLabelLatitude"
+        android:layout_marginTop="14dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="51.2345"
+        android:id="@+id/textViewLatitude"
+        android:layout_toRightOf="@+id/textViewLabelLatitude"
+        android:layout_marginLeft="30dp"
+        android:layout_above="@+id/textViewLabelLongitude" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="13.12345"
+        android:id="@+id/textViewLongitude"
+        android:layout_alignBottom="@+id/textViewLabelLongitude"
+        android:layout_alignLeft="@+id/textViewLatitude" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Position"
+        android:id="@+id/buttonGetCurrentPosition"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onBtnGetCurrentPositionClicked" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show On Maps"
+        android:id="@+id/buttonShowOnMaps"
+        android:layout_below="@+id/buttonGetCurrentPosition"
+        android:layout_alignLeft="@+id/buttonGetCurrentPosition"
+        android:layout_alignRight="@+id/buttonGetCurrentPosition"
+        android:onClick="onBtnDisplayOnMapsClicked" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Server"
+        android:id="@+id/buttonUpdateServer"
+        android:onClick="onBtnGetUpdateServerClicked"
+        android:layout_below="@+id/buttonShowOnMaps"
+        android:layout_alignLeft="@+id/buttonShowOnMaps"
+        android:layout_alignRight="@+id/buttonShowOnMaps" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SendRequestButton"
+        android:id="@+id/sendRequestButton"
+        android:onClick="onBtnSendRequestClicked"
+        android:layout_gravity="right|center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignLeft="@+id/buttonGetCurrentPosition" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/sendRequestButton"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/sendRequestButton">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textView"
+            android:layout_below="@+id/sendRequestButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true" />
+    </ScrollView>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_below="@+id/buttonUpdateServer"
+        android:layout_alignParentLeft="true"
+        android:editable="true"
+        android:text="http://4tress.dyndns.org:8000"
+        android:singleLine="false" />
+
+</RelativeLayout>
