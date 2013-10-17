@@ -29,12 +29,18 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
+    private Config config;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //startService(new Intent(this, UpdateService.class));
+        config = Config.getInstance();
+
+
+        Intent intent = new Intent(this, UpdateService.class);
+        startService(intent);
     }
 
 
@@ -134,7 +140,8 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        HttpUpdatePositionTask task = new HttpUpdatePositionTask(this);
+        //HttpUpdatePositionTask task = new HttpUpdatePositionTask(this);
+        HttpUpdatePositionTask task = new HttpUpdatePositionTask();
         task.execute(url);
     }
 

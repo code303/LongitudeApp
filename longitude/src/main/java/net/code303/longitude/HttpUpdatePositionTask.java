@@ -1,6 +1,6 @@
 package net.code303.longitude;
 
-import android.app.Activity;
+//import android.app.Activity;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -16,11 +16,11 @@ import java.net.URL;
  */
 public class HttpUpdatePositionTask extends AsyncTask<URL, Integer, String> {
 
-    private final Activity activity;
+    //private final Activity activity;
 
-    public HttpUpdatePositionTask(Activity activity) {
-        this.activity = activity;
-    }
+    //public HttpUpdatePositionTask(Activity activity) {
+    //    this.activity = activity;
+    //}
 
     @Override
     protected String doInBackground(URL... urls) {
@@ -55,7 +55,7 @@ public class HttpUpdatePositionTask extends AsyncTask<URL, Integer, String> {
     }
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(activity.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(activity.getApplicationContext(), result, Toast.LENGTH_SHORT).show();
     }
 
 }
