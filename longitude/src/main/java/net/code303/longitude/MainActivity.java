@@ -59,11 +59,8 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-
-        (new HttpGetTask()).execute(url);
-
-
-
+        HttpGetTask task = new HttpGetTask(this);
+        task.execute(url);
     }
 
     public void onBtnGetCurrentPositionClicked(View view) {
@@ -137,8 +134,10 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        (new HttpUpdatePositionTask()).execute(url);
+        HttpUpdatePositionTask task = new HttpUpdatePositionTask(this);
+        task.execute(url);
     }
+
     public void onBtnDisplayOnMapsClicked(View view) {
         TextView textViewLatitude = (TextView) findViewById(R.id.textViewLatitude);
         Double latitude = Double.parseDouble(textViewLatitude.getText().toString());
@@ -146,127 +145,13 @@ public class MainActivity extends Activity {
         Double longitude = Double.parseDouble(textViewLongitude.getText().toString());
         displayOnMaps("Toni",latitude,longitude);
     }
+
     // Display on map
     private void displayOnMaps(String userName, double latitude, double longitude) {
         try {
         String uri = "geo:"+ latitude + "," + longitude;
         startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
         }
-        catch (Exception ex){Toast.makeText(getApplicationContext(), "oohhh", Toast.LENGTH_SHORT).show();}
+        catch (Exception ex){Toast.makeText(getApplicationContext(), "Ups - Maps nicht verfügbar", Toast.LENGTH_SHORT).show();}
     }
-
-    private class HttpGetTask extends AsyncTask<URL, Integer, byte[]> {
-
-        @Override
-        protected byte[] doInBackground(URL... urls) {
-            byte[] rawBytes = new byte[]{};
-            try {
-                URL url = null;
-                //url = new URL("http://raspberrypi:8000/get");
-                url = urls[0];
-
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
-                    InputStream content = new BufferedInputStream(urlConnection.getInputStream());
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    int nextByte;
-                    while((nextByte = content.read()) != -1){
-                        outputStream.write(nextByte);
-                    }
-                    rawBytes = outputStream.toByteArray();
-                }
-                catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                finally {
-                    urlConnection.disconnect();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return rawBytes;
-        }
-        @Override
-        protected void onPostExecute(byte[] responseBytes) {
-            TextView textView = (TextView) findViewById(R.id.textView);
-            textView.getEditableText().clear();
-
-            String clearTextResponse = Codec.decr(responseBytes);
-            try {
-                String[] res = clearTextResponse.split("&");
-                for(String personData : res){
-                    textView.append(personData.replace('#',' ') + System.getProperty("line.separator"));
-                }
-            }
-            catch (Exception ex){
-                ex.printStackTrace();
-            }
-
-        }
-    }
-
-    private class HttpUpdatePositionTask extends AsyncTask<URL, Integer, String> {
-
-        @Override
-        protected String doInBackground(URL... urls) {
-            String result ="";
-            try {
-                URL url = null;
-                //url = new URL("http://raspberrypi:8000/get");
-                url = urls[0];
-
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
-                    InputStream content = new BufferedInputStream(urlConnection.getInputStream());
-                    BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = buffer.readLine()) != null) {
-                        result += s;
-                    }
-                }
-                catch (Exception ex) {
-                    String exString = ex.getMessage();
-                    ex.printStackTrace();
-                }
-                finally {
-                    urlConnection.disconnect();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return result;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText( getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
 }
-/*
-try {
-            //URL url = null;
-            url = new URL("http://www.android.com/");
-
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            try {
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                readStream(in);
-            }
-            catch (Exception ex) {
-                String exString = ex.getMessage();
-                ex.printStackTrace();
-            }
-            finally {
-                urlConnection.disconnect();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
- */

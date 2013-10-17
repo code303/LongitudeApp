@@ -80,9 +80,8 @@
         android:id="@+id/sendRequestButton"
         android:onClick="onBtnSendRequestClicked"
         android:layout_gravity="right|center_vertical"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignLeft="@+id/buttonGetCurrentPosition" />
+        android:layout_below="@+id/editText"
+        android:layout_alignLeft="@+id/buttonUpdateServer" />
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -108,10 +107,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:layout_below="@+id/buttonUpdateServer"
-        android:layout_alignParentLeft="true"
         android:editable="true"
-        android:text="http://tonislaptop:8000"
-        android:singleLine="false" />
+        android:text="http://4tress.dyndns.org:8000"
+        android:singleLine="false"
+        android:layout_below="@+id/buttonUpdateServer"
+        android:layout_alignLeft="@+id/textViewLabelLongitude" />
 
 </RelativeLayout>

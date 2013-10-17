@@ -37,7 +37,7 @@ public class Codec {
 
     private static Key getKey() {
         SecretKeySpec key;
-        String passphrase = "passphrase";
+        String passphrase = "correct horse battery staple uni";
         try {
             byte[] salt = "choose a better salt".getBytes();
             int iterations = 10000;
